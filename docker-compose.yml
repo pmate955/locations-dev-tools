@@ -1,0 +1,40 @@
+version: '2'
+services:
+  locations-db:
+    container_name: locations-db
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'locations_development'
+      MYSQL_USER: 'locations_development'
+      MYSQL_PASSWORD: 'toor'
+      MYSQL_ROOT_PASSWORD: 'toor'
+    expose:
+      - '3306'
+    volumes:
+      - locations-db-data:/var/lib/mysql
+    networks:
+      inner:
+        aliases:
+          - locations-db 
+  locations-api:
+    container_name: locations-api
+    build:
+      context: ./locations-api
+      dockerfile: Dockerfile.development
+    volumes:
+      - './locations-api:/usr/src/app'
+    environment:
+      API_PORT: '3000'
+    ports:
+      - '3000:3000'
+    networks:
+      inner:
+        aliases:
+          - locations-api
+    depends_on:
+      - locations-db
+networks:
+  inner: {}
+volumes:
+  locations-db-data: {}
