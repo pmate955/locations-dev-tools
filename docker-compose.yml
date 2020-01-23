@@ -34,6 +34,19 @@ services:
           - locations-api
     depends_on:
       - locations-db
+  locations-frontend:
+    container_name: locations-frontend
+    build:
+      context: ./locations-frontend
+      dockerfile: Dockerfile.development
+    volumes:
+      - './locations-frontend:/usr/src/app'
+    ports: 
+      - '4200:4200' # Port mapping
+    networks:
+      inner:
+        aliases:
+          - locations-frontend
 networks:
   inner: {}
 volumes:
