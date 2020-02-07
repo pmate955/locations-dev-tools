@@ -3,7 +3,6 @@ services:
   locations-db:
     container_name: locations-db
     image: mysql:5.7
-    restart: always
     environment:
       MYSQL_DATABASE: 'locations_development'
       MYSQL_USER: 'locations_development'
