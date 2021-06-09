@@ -1,4 +1,4 @@
-version: '2'
+version: '2.2'
 services:
   locations-db:
     container_name: locations-db
@@ -18,6 +18,8 @@ services:
           - locations-db 
   locations-api:
     container_name: locations-api
+    cpus: "0.2"
+    mem_limit: 128m
     build:
       context: ./locations-api
       dockerfile: Dockerfile.development
@@ -25,6 +27,7 @@ services:
       - './locations-api:/usr/src/app'
     environment:
       API_PORT: '3000'
+      JWT_SECRET: 'test-secret'
     ports:
       - '3000:3000'
     networks:
